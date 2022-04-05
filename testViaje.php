@@ -31,7 +31,7 @@ do{
     case 2: //Modificar datos de un viaje
         //preguntar que datos desea modificar. Modificar implica obtener un array, modificarlo y setear 
         //la coleccion modificada.
-           do{
+           
                  echo "indique la opcion elegida:\n";
                  echo "(1) Modificar código de viaje\n";
                  echo "(2) Modificar destino de viaje\n";
@@ -86,7 +86,7 @@ do{
                        $pasajerosEliminar =$objviaje->eliminarPasajero ($dni);
                        $objViaje->setColeccionPasajeros($pasajerosEliminar);
                     break;
-                }while($opcion != 5);
+                }
             break;
     case 3: //mostrar en pantalla datos de un viaje
         $objviaje->__toString();
