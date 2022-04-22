@@ -1,7 +1,14 @@
 <?php
 
 include 'Viaje.php';
-$objViaje= new Viaje (0,0,0);//creo un objeto viaje vacio. //o q primero pida x teclado los datos y despues cree la clase.
+include 'Pasajero.php';
+include 'ResponsableV.php';
+
+//creo instancias de las clases, con datos precargados
+$objViaje= new Viaje(12, "plottier", 20, $colecccionPasajeros, $objResponsable);
+$objResponsable =new ResponsableV(9050,274,"Marty", "Mc.Fly");
+$coleccionPasajeros[0]= new Pasajero("hector","Pereyra",45587412,2995786354);
+$coleccionPasajeros[1]= new Pasajero("Ramona", "Ramon", 23456789,2994569874);
 
 do{
     //Se invoca a la funcion seleccionarOpcion
@@ -25,6 +32,19 @@ do{
             echo "ingrese la cantidad de pasajeros a ingresar:\n";
             $cantPaxCargar = trim(fgets(STDIN));
             $objViaje->cargarPasajeros($cantPaxCargar);
+            echo "responsable del viaje: \n";
+            echo "ingrese nombre del responsable:\n";
+            $nombreRes= trim(fgets(STDIN));
+            echo "ingrese Apellido:\n";
+            $apellRes =trim(fgets(STDIN));
+            echo "ingrese Numero de empleado\n:";
+            $numEmpleado =trim(fgets(STDIN));
+            echo "por `ultimo ingrese numero de licencia: \n";
+            $numLicencia = trim(fgets(STDIN));
+            $objResponsable->setNumEmpleado($numEmpleado);
+            $objResponsable->setNumLicencia($numLicencia);
+            $objResponsable->setNombre($nombreRes);
+            $objResponsable->setApellido($apellRes);
     
         break;
      
@@ -58,15 +78,25 @@ do{
                         //si la nueva cantidad es menor a la q existia algunos pasajeros quedan afuera del viaje
                     break;
                     case 4://agregar pasajeros
-                        echo"agregar pasajero\n";
-                        echo"Ingrese nombre:\n";
-                        $nombre (trim(fgets(STDIN)));
-                        echo"Ingrese apellido:\n";
-                        $apellido (trim(fgets(STDIN)));
-                        echo"Ingrese DNI:\n";
-                        $dni (trim(fgets(STDIN)));
-                       $pasajerosAgregados =$objviaje->agregarPasajeros($cantPaxViaje,$nombre,$apellido,$dni);
-                       $objViaje->setColeccionPasajeros($pasajerosAgregados);
+                        echo "ingrese la cantidad de pasajeros a cargar:";
+                        $cantPaxCargar= trim(fgets(STDIN));
+                        $arregloAgregarPasajeros = $this->getColeccionPasajeros();
+                            if ($cantPaxCargar <= $this->getCantMaxPax()) {
+                                for ($i =0; $i < $cantPaxCargar; $i++)
+                                echo"Ingrese nombre:\n";
+                                $nombre (trim(fgets(STDIN)));
+                                echo"Ingrese apellido:\n";
+                                $apellido (trim(fgets(STDIN)));
+                                echo"Ingrese DNI:\n";
+                                $dni (trim(fgets(STDIN)));
+                                $objViaje->existePasajero($dni);
+                            }else{
+                                echo "la cantidad de pasajeros a ingresar supera la cantidad maxima de pasajeros del viaje\n:";
+                                echo "ingrese una cantidad valida menor o igual a ".$this->getCantMaxPax(). "\n";
+                            }
+                
+                            $arregloAgregarPasajeros =$objviaje->agregarPasajero($nombre,$apellido, $dni, $telefono);
+                             $objViaje->setColeccionPasajeros($arregloAgregarPasajeros);
                     break;
                     case 5: //modificar datos de pasajero buscando DNI en el array.
                         Echo "ingrese el DNI de pasajero que desea modificar:\n";
@@ -77,7 +107,9 @@ do{
                         $nuevoApellido= (trim(fgets(STDIN)));
                         echo "ingrese el nuevo DNI:\n";
                         $nuevoDni = (trim(fgets(stdin)));
-                        $pasajerosModificados =$objViaje->modificarDatosPasajero($dni,$nuevoApellido,$nuevoNombre, $nuevoDni);
+                        echo "ingrese el nuevo tel`efono:\n";
+                        $nuevoTelefono= trim(fgets(STDIN));
+                        $pasajerosModificados =$objViaje->modificarPasajero($dni,$nuevoNombre, $nuevoApellido, $nuevoDni, $nuevoTelefono);
                         $objViaje->setColeccionPasajeros($pasajerosModificados);
                     break;
                     case 6: //eliminar un pasajero
