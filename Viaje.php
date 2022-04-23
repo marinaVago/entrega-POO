@@ -23,7 +23,7 @@ class Viaje{
     private $codigo;
     private $destino;
     private $cantMaxPax;
-    private $coleccionPasajeros=[]; // coleccion de objetos Pasajeros, arreglo indexado de objetos.
+    private $coleccionPasajeros=[]; // coleccion de objetos Pasajeros
     private $objResponsable; //objeto de la clase responsableV
 
     public function __construct($codigo, $destino, $cantMaxPax,  $coleccionPasajeros, $objResponsable)
@@ -46,7 +46,7 @@ class Viaje{
     public function setColeccionPasajeros ($coleccionPasajeros){
         $this ->coleccionPasajeros =$coleccionPasajeros;
     }
-    public function setResponsable($objResponsable){
+    public function setObjResponsable($objResponsable){
         $this->objResponsable=$objResponsable;
     }
     public function getCodigo (){
@@ -67,7 +67,7 @@ class Viaje{
 
     //función cargar datos de pasajeros en viaje.
     
-    public function cargarPasajeros($cantPaxViaje){
+   /* public function cargarPasajeros($cantPaxViaje){
         $arregloPasajeros = $this->getColeccionPasajeros();
         if ($cantPaxViaje <= $this->getCantMaxPax()){
             for ($i =0; $i < $cantPaxViaje; $i++){
@@ -84,24 +84,24 @@ class Viaje{
         }else{
             echo "la cantidad de pasajeros a ingresar supera la cantidad maxima de pasajeros del viaje\n:";
             echo "ingrese una cantidad valida menor o igual a ".$this->getCantMaxPax(). "\n";
-        }
+        }*/
         
-    }
+    
     
     //busca a un pasajero usando como param el $dni, si lo encuentra modifica sus datos
-    public function modificarPasajero($dni,$nuevoNombre, $nuevoApellido, $nuevoDni, $nuevoTel){
+    public function modificarPasajero($dni,$nuevoNombre, $nuevoApellido, $nuevoTel){
         $coleccionModificar = $this->getColeccionPasajeros();
         $i=0;
         $continua=true;
             while($i< count($coleccionModificar) && $continua);
                 $pasajeroBuscado= $coleccionModificar[$i];
                 $dniPasajero = $pasajeroBuscado->getDni();
+                //$seEncoontro =($psasjeroBuscado->getDni())
                 if ($dniPasajero == $dni){
                     $continua=false;
                     $pasajeroBuscado->setNombre($nuevoNombre);
                     $pasajeroBuscado->setApellido($nuevoApellido);
-                    $pasajeroBuscado->setDni ($nuevoDni);
-                    $pasajeroBuscado->setTeñefono($nuevoTel);
+                    $pasajeroBuscado->setTelefono($nuevoTel);
                     $coleccionModificar[$i]=$pasajeroBuscado;
                     $this->setColeccionPasajeros($coleccionModificar);
 
@@ -130,13 +130,23 @@ class Viaje{
         $coleccionAgregar[]=new Pasajero($nombre, $apellido,$dni,$telefono);
         $this->setColeccionPasajeros($coleccionaAgregar);
     }
+
+
+
     //recorrer el arreglo para mostrar los objetos pasajeros.//no funca. pendiente
     public function verDatosPasajeros(){
-        $pasajerosaMostrar = $this->coleccionPasajeros;
-            foreach ($pasajerosaMostrar as $key=>$valor){
-                $pasajerosaMostrar->__toString();
+        $pasajerosaMostrar = $this->getColeccionPasajeros();
+        $pasajeros="";
+        $i=1;
+            foreach ($pasajerosaMostrar as $objPasajero){
+                $pasajeros = $pasajeros."\n Pasajero".($i)."----------";
+                $pasajeros =$pasajeros. $objPasajero."\n";
             } 
+            return $pasajeros;
     }
+
+
+
     public function existePasajero($dni){
         $coleccionExistePax = $this->getColeccionPasajeros();
             $i=0;
@@ -154,8 +164,10 @@ class Viaje{
     {
         $cadena = "Codigo de viaje: ".$this->getCodigo()."\n 
         Destino:".$this->getDestino()."\n 
+        Responsable del viaje: ".$this->getObjResponsable()."\n
         Cantidad maxima de pasajeros:".$this->getCantMaxPax()."\n
         Datos de pasajeros:" .$this->verDatosPasajeros();
+        
         return $cadena;
     }
 

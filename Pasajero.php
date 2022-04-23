@@ -49,13 +49,5 @@ class Pasajero{
         return $cad;
 
     }
-    //Volver a implementar las operaciones que permiten modificar el nombre, apellido y teléfono de un pasajero.
-    /*podria ser que le imprima al usuario la lista de pasajeros, le pida ingresar el numero de orden $key para poder modificar los datos en el test*/
-    public function modificarPasajero($nuevoNombre, $nuevoApellido, $nuevoDni, $nuevoTel){
-        $this->setNombre($nuevoNombre);
-        $this->setApellido($nuevoApellido);
-        $this->setDni($nuevoDni);
-        $this->setTelefono($nuevoTel);
-    }
-
+   
 }

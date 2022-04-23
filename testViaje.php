@@ -5,7 +5,7 @@ include 'Pasajero.php';
 include 'ResponsableV.php';
 
 //creo instancias de las clases, con datos precargados
-$objViaje= new Viaje(12, "plottier", 20, $colecccionPasajeros, $objResponsable);
+$objViaje= new Viaje(12, "plottier", 20, $colecccionPasajeros, $objResponsable);//estta $coleccionPasajeros porque lo pase por parámetro en el construc. sino setear
 $objResponsable =new ResponsableV(9050,274,"Marty", "Mc.Fly");
 $coleccionPasajeros[0]= new Pasajero("hector","Pereyra",45587412,2995786354);
 $coleccionPasajeros[1]= new Pasajero("Ramona", "Ramon", 23456789,2994569874);
@@ -121,8 +121,8 @@ do{
                 }
             break;
     case 3: //mostrar en pantalla datos de un viaje
-        $objviaje->__toString();
+        echo $objViaje;
     
     break;
      
-     }while($opcion != 4);
+ }while($opcion != 4);
