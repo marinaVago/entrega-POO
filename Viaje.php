@@ -25,14 +25,18 @@ class Viaje{
     private $cantMaxPax;
     private $coleccionPasajeros=[]; // coleccion de objetos Pasajeros
     private $objResponsable; //objeto de la clase responsableV
+    private $importe;
+    private $trayecto;//ida, o ida y vuelta.
 
-    public function __construct($codigo, $destino, $cantMaxPax,  $coleccionPasajeros, $objResponsable)
+    public function __construct($codigo, $destino, $cantMaxPax,  $coleccionPasajeros, $objResponsable, $importe, $trayecto)
     {
         $this->codigo = $codigo;
         $this->destino = $destino;
         $this->cantMaxPax =$cantMaxPax;
         $this->coleccionPasajeros = $coleccionPasajeros;
         $this->objResponsable= $objResponsable;
+        $this->importe =$importe;
+        $this->trayecto= $trayecto;
     }
     public function setCodigo ($codigo){
         $this->codigo =$codigo;
@@ -49,6 +53,12 @@ class Viaje{
     public function setObjResponsable($objResponsable){
         $this->objResponsable=$objResponsable;
     }
+    public function setImporte($importe){
+        $this->importe =$importe;
+    }
+    public function setTrayecto($trayecto){
+        $this->trayecto=$trayecto;
+    }
     public function getCodigo (){
         return $this->codigo;
     }
@@ -63,6 +73,12 @@ class Viaje{
     }
     public function getObjResponsable(){
         return $this->objResponsable;
+    }
+    public function getImporte(){
+        return $this->importe;
+    }
+    public function getTrayecto(){
+        return $this->tayecto;
     }
 
     //función cargar datos de pasajeros en viaje.
@@ -170,6 +186,30 @@ class Viaje{
         
         return $cadena;
     }
+    public function hayPasajesDisponible() {
+        $haypasajes= false;
+        if ($this->getCantMaxPax()< $this->getColeccionPasajeros()){
+            $haypasajes= true;
+    }
+    return $haypasajes;
+    }
+    //que retorna verdadero si la cantidad de pasajeros del viaje es menor a la cantidad máxima de pasajeros y falso caso contrario.
+   
+    public function venderPasaje($objPasajero){
+        //verificar si hay asientos disponibles
+        //calcular importe y retornarlo.
+        //sumar  un pasajero al viaje (coleccion pasajeros)
+        if ($this->hayPasajesDisponible() == true){
+            $importeTotal= $this->getImporte();
+            if ($this->getTrayecto() == "ida y vuelta"){
+                $importeTotal=$this->getImporte() +  ($this->getImporte() * 50)/100;
+            }
+            $coleccionaAgregar=$this->getColeccionPasajeros();
+            $coleccionAgregar[]=$objPasajero;
+            $this->setColeccionPasajeros($coleccionaAgregar);
+        }
+        return $importeTotal;
+    }
 
     //muestra y obtiene una opcion de menú ***válida***
     
@@ -181,17 +221,18 @@ class Viaje{
             echo "\n ( 1 ) Cargar información de viaje"; 
             echo "\n ( 2 ) Modificar datos de un viaje"; 
             echo "\n ( 3 ) Mostrar la informacion completa de un Viaje"; 
-            echo "\n ( 4 ) Salir"; 
+            echo "\n ( 4 ) Vender un viaje";
+            echo "\n ( 5 ) Salir";
             echo "\n        ";
             $opcion = trim(fgets(STDIN));
     
             // controlar que la opción elegida es válida. Puede que el usuario se equivoque al elegir una opción <<<*/
-            if($opcion < 1 || $opcion > 4)
+            if($opcion < 1 || $opcion > 5)
              {
                  echo "\n---------- Indique una opcion valida ----------\n";
              }
         } //Si la opcion es invalida muestra una advertencia y vuelve a mostrar el menu
-        while(!($opcion >= 1 && $opcion <= 4));
+        while(!($opcion >= 1 && $opcion <= 5));
     
         echo "--------------------------------------------------------------\n";
         return $opcion;
